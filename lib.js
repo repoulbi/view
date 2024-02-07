@@ -15,6 +15,7 @@ export async function mergeAllPDFs(urls) {
     // iterate over all documents to merge
     const numDocs = urls.length;    
     for(var i = 0; i < numDocs; i++) {
+        console.log(urls[i]);
 
         // download the document
         const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
@@ -24,6 +25,7 @@ export async function mergeAllPDFs(urls) {
 
         // iterate over the document's pages
         const docLength = donorPdfDoc.getPageCount();
+        console.log(docLength);
         for(var k = 0; k < docLength; k++) {
             // extract the page to copy
             const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
