@@ -9,6 +9,7 @@
   
   body {
     background-color: #f0552e;
+    overflow: hidden;
   }
   
   .sec-loading {
