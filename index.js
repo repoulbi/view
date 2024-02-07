@@ -1,4 +1,4 @@
-import {displayConcatenatedPDFs} from "./lib.js"
+import { displayConcatenatedPDFs } from "./lib.js";
 
 const urlHash = window.location.hash;
 const hashParams = urlHash.substring(1).split('&');
@@ -14,4 +14,28 @@ hashParams.forEach(param => {
     }
 });
 
+// Show loading message
+Swal.fire({
+    title: 'Please Wait',
+    text: 'Please wait while the PDF is being loaded...',
+    allowOutsideClick: false,
+    onBeforeOpen: () => {
+        Swal.showLoading();
+    }
+});
+
+// Load and display concatenated PDFs
 displayConcatenatedPDFs(pdfA, pdfB)
+    .then(() => {
+        // Close loading message when PDFs are loaded
+        Swal.close();
+    })
+    .catch(error => {
+        // Handle error if PDF loading fails
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Failed to load PDF. Please try again later.',
+        });
+        console.error('Error loading PDF:', error);
+    });
