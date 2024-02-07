@@ -48,11 +48,11 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
-      text: 'URL Tidak Valid. Silahkan periksa kembali URL yang akan dikunjungi.',
+      text: 'Dokumen masih dalam proses pembuatan. Silahkan kembali lagi setelah 10 menit.',
     });
     const HomeLink = document.createElement('a');
-    HomeLink.href ="../";
-    HomeLink.textContent = 'Kembali ke Laman Depan';
+    HomeLink.href ="javascript:window.location.reload(true)";
+    HomeLink.textContent = 'Segarkan Laman';
     document.body.replaceChild(HomeLink,loaderSection);
     console.error('Error memroses PDFs:', error);
   }
