@@ -1,5 +1,3 @@
-import { PDFDocument } from "https://unpkg.com/pdf-lib";
-
 export async function createPdf() {
     const pdfDoc = await PDFLib.PDFDocument.create();
     const page = pdfDoc.addPage([350, 400]);
@@ -54,7 +52,7 @@ export async function embedPdfPages() {
       res.arrayBuffer(),
     );
   
-    const pdfDoc = await PDFDocument.create();
+    const pdfDoc = await PDFLib.PDFDocument.create();
   
     const [americanFlag] = await pdfDoc.embedPdf(flagPdfBytes);
   
