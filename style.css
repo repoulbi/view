@@ -8,8 +8,10 @@
   }
   
   body {
-    background-color: #f0552e;
+    background-color: #000000;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
   }
 
   a:link, a:visited {
