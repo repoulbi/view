@@ -30,7 +30,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     embedElement.setAttribute('src', pdfUrl);
     embedElement.setAttribute('width', '100%');
     embedElement.setAttribute('height', '100%');
-    document.body.appendChild(embedElement);
+    document.body.replaceChild(embedElement);
   } catch (error) {
     // Handle error if PDF loading fails
     Swal.fire({
