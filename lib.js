@@ -33,7 +33,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       downloadLink.textContent = 'Download LKD';
       document.body.replaceChild(downloadLink,loaderSection);
       downloadLink.click();
-      downloadLink.remove();
+      //downloadLink.remove();
     }else{
       const embedElement = document.createElement('embed');
       embedElement.setAttribute('src', pdfUrl);
