@@ -1,86 +1,29 @@
-export async function createPdf() {
-    const pdfDoc = await PDFLib.PDFDocument.create();
-    const page = pdfDoc.addPage([350, 400]);
-    page.moveTo(110, 200);
-    page.drawText('Hello World!');
-    const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-    document.getElementById('pdf').src = pdfDataUri;
-}
+import { PDFDocument, PDFPage } from 'https://cdn.skypack.dev/pdf-lib';
 
-export async function mergeAllPDFs(urls) {
-        
-    // create an empty PDFLib object of PDFDocument to do the merging into
-    const pdfDoc = await PDFLib.PDFDocument.create();
-    
-    // iterate over all documents to merge
-    const numDocs = urls.length;    
-    for(var i = 0; i < numDocs; i++) {
-        console.log(urls[i]);
+const flagUrl = 'https://repo.ulbi.ac.id/sk/2324-1/402_PengampuMK.pdf';
+const constitutionUrl = 'https://repo.ulbi.ac.id/lkd/POBKD.pdf';
 
-        // download the document
-        const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
+const pdfIframe = document.getElementById('pdf');
 
-        // load/convert the document into a PDFDocument object
-        const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+export async function displayConcatenatedPDFs() {
+  try {
+    const flagPdfBytes = await fetch(flagUrl).then(response => response.arrayBuffer());
+    const constitutionPdfBytes = await fetch(constitutionUrl).then(response => response.arrayBuffer());
 
-        // iterate over the document's pages
-        const docLength = donorPdfDoc.getPageCount();
-        console.log(docLength);
-        for(var k = 0; k < docLength; k++) {
-            // extract the page to copy
-            const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
+    const flagPdfDoc = await PDFDocument.load(flagPdfBytes);
+    const constitutionPdfDoc = await PDFDocument.load(constitutionPdfBytes);
 
-            // add the page to the overall merged document
-            pdfDoc.addPage(donorPage);
-        }
+    const pagesToAppend = await flagPdfDoc.copyPages(constitutionPdfDoc, constitutionPdfDoc.getPageIndices());
+
+    for (const page of pagesToAppend) {
+      await flagPdfDoc.addPage(page);
     }
-    
-    // save as a Base64 URI
-    const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
 
-    // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."    
-    const data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-    document.getElementById('pdf').src = data_pdf;
-}
+    const concatenatedPdfBytes = await flagPdfDoc.save();
 
-export async function embedPdfPages() {
-    const flagUrl = 'https://repo.ulbi.ac.id/sk/2324-1/402_PengampuMK.pdf';
-    const constitutionUrl = 'https://repo.ulbi.ac.id/lkd/POBKD.pdf';
-  
-    const flagPdfBytes = await fetch(flagUrl).then((res) => res.arrayBuffer());
-    const constitutionPdfBytes = await fetch(constitutionUrl).then((res) =>
-      res.arrayBuffer(),
-    );
-  
-    const pdfDoc = await PDFLib.PDFDocument.create();
-  
-    const [americanFlag] = await pdfDoc.embedPdf(flagPdfBytes);
-  
-    const usConstitutionPdf = await PDFLib.PDFDocument.load(constitutionPdfBytes);
-    const preamble = await pdfDoc.embedPage(usConstitutionPdf.getPages()[1], {
-      left: 55,
-      bottom: 485,
-      right: 300,
-      top: 575,
-    });
-  
-    const americanFlagDims = americanFlag.scale(0.3);
-    const preambleDims = preamble.scale(2.25);
-  
-    const page = pdfDoc.addPage();
-  
-    page.drawPage(americanFlag, {
-      ...americanFlagDims,
-      x: page.getWidth() / 2 - americanFlagDims.width / 2,
-      y: page.getHeight() - americanFlagDims.height - 150,
-    });
-    page.drawPage(preamble, {
-      ...preambleDims,
-      x: page.getWidth() / 2 - preambleDims.width / 2,
-      y: page.getHeight() / 2 - preambleDims.height / 2 - 50,
-    });
-
-    const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-    document.getElementById('pdf').src = pdfDataUri;  
-    //const pdfBytes = await pdfDoc.save();
+    const pdfUrl = URL.createObjectURL(new Blob([concatenatedPdfBytes], { type: 'application/pdf' }));
+    pdfIframe.src = pdfUrl;
+  } catch (error) {
+    console.error('Error concatenating and displaying PDFs:', error);
   }
+}
