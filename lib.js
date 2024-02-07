@@ -25,13 +25,22 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const concatenatedPdfBytes = await flagPdfDoc.save();
 
     const pdfUrl = URL.createObjectURL(new Blob([concatenatedPdfBytes], { type: 'application/pdf' }));
-    //pdfIframe.src = pdfUrl;
-    // Tampilkan PDF dengan elemen <embed>
-    const embedElement = document.createElement('embed');
-    embedElement.setAttribute('src', pdfUrl);
-    embedElement.setAttribute('width', '100%');
-    embedElement.setAttribute('height', '100%');
-    document.body.replaceChild(embedElement,loaderSection);
+    if (isMobile){
+      const downloadLink = document.createElement('a');
+      downloadLink.href =pdfUrl;
+      downloadLink.download = 'LKD_ULBI.pdf';
+      downloadLink.textContent = 'Download LKD';
+      document.body.replaceChild(downloadLink,loaderSection);
+      downloadLink.click();
+      downloadLink.remove();
+    }else{
+      const embedElement = document.createElement('embed');
+      embedElement.setAttribute('src', pdfUrl);
+      embedElement.setAttribute('width', '100%');
+      embedElement.setAttribute('height', '100%');
+      document.body.replaceChild(embedElement,loaderSection);
+    }
+    
   } catch (error) {
     // Handle error if PDF loading fails
     Swal.fire({
