@@ -39,6 +39,6 @@ export async function mergeAllPDFs(urls) {
     const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
 
     // strip off the first part to the first comma "data:image/png;base64,iVBORw0K..."    
-    //const data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
-    document.getElementById('pdf').src = pdfDataUri;
+    const data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
+    document.getElementById('pdf').src = data_pdf;
 }
