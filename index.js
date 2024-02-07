@@ -16,7 +16,7 @@ hashParams.forEach(param => {
 
 // Show loading message
 Swal.fire({
-    title: 'Please Wait',
+    title: 'Please wait',
     text: 'Please wait while the PDF is being loaded...',
     allowOutsideClick: false,
     onBeforeOpen: () => {
