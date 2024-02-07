@@ -5,7 +5,7 @@ const pdfIframe = document.getElementById('pdf');
 export async function displayConcatenatedPDFs(pdfA, pdfB) {
 
   const flagUrl = 'https://repo.ulbi.ac.id/sk/2324-1/' + pdfA + '.pdf';
-  const constitutionUrl = 'https://repo.ulbi.ac.id/lkd/' + pdfB + '.pdf';
+  const constitutionUrl = 'https://repo.ulbi.ac.id/buktiajar/2324-1/' + pdfB + '.pdf';
 
   try {
     const flagPdfBytes = await fetch(flagUrl).then(response => response.arrayBuffer());
