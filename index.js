@@ -24,16 +24,13 @@ Swal.fire({
     title: 'Please wait',
     text: 'Please wait while the PDF is being loaded...',
     allowOutsideClick: false,
-    onBeforeOpen: () => {
-        Swal.showLoading();
-    }
 });
 
 // Load and display concatenated PDFs
 displayConcatenatedPDFs(pdfA, pdfB)
     .then(() => {
         // Close loading message when PDFs are loaded
-        Swal.close();
+        //Swal.close();
     })
     .catch(error => {
         // Handle error if PDF loading fails
