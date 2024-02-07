@@ -31,7 +31,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       const downloadLink = document.createElement('a');
       downloadLink.href =pdfUrl;
       downloadLink.download = 'LKD_ULBI.pdf';
-      downloadLink.textContent = 'Download LKD';
+      downloadLink.textContent = 'Unduh Berkas';
       document.body.replaceChild(downloadLink,loaderSection);
       downloadLink.click();
       //downloadLink.remove();
