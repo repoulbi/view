@@ -56,7 +56,7 @@ export async function embedPdfPages() {
   
     const [americanFlag] = await pdfDoc.embedPdf(flagPdfBytes);
   
-    const usConstitutionPdf = await PDFDocument.load(constitutionPdfBytes);
+    const usConstitutionPdf = await PDFLib.PDFDocument.load(constitutionPdfBytes);
     const preamble = await pdfDoc.embedPage(usConstitutionPdf.getPages()[1], {
       left: 55,
       bottom: 485,
