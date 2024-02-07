@@ -25,7 +25,8 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const concatenatedPdfBytes = await flagPdfDoc.save();
 
     const pdfUrl = URL.createObjectURL(new Blob([concatenatedPdfBytes], { type: 'application/pdf' }));
-    if (isMobile){
+    if (isMobile()){
+      console.log("masuk ke mode mobile");
       const downloadLink = document.createElement('a');
       downloadLink.href =pdfUrl;
       downloadLink.download = 'LKD_ULBI.pdf';
