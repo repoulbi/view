@@ -1,7 +1,8 @@
 import { PDFDocument, PDFPage } from 'https://cdn.skypack.dev/pdf-lib';
 import { isMobile } from 'https://cdn.jsdelivr.net/gh/jscroot/useragent@0.0.1/croot.js';
 
-//const pdfIframe = document.getElementById('pdf');
+const loaderSection = document.getElementById('loaderSection');
+
 
 export async function displayConcatenatedPDFs(pdfA, pdfB) {
 
@@ -30,7 +31,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     embedElement.setAttribute('src', pdfUrl);
     embedElement.setAttribute('width', '100%');
     embedElement.setAttribute('height', '100%');
-    document.body.replaceChild(embedElement);
+    document.body.replaceChild(embedElement,loaderSection);
   } catch (error) {
     // Handle error if PDF loading fails
     Swal.fire({
