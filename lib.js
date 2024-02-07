@@ -1,6 +1,7 @@
 import { PDFDocument, PDFPage } from 'https://cdn.skypack.dev/pdf-lib';
+import { isMobile } from 'https://cdn.jsdelivr.net/gh/jscroot/useragent@0.0.1/croot.js';
 
-const pdfIframe = document.getElementById('pdf');
+//const pdfIframe = document.getElementById('pdf');
 
 export async function displayConcatenatedPDFs(pdfA, pdfB) {
 
@@ -23,7 +24,13 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const concatenatedPdfBytes = await flagPdfDoc.save();
 
     const pdfUrl = URL.createObjectURL(new Blob([concatenatedPdfBytes], { type: 'application/pdf' }));
-    pdfIframe.src = pdfUrl;
+    //pdfIframe.src = pdfUrl;
+    // Tampilkan PDF dengan elemen <embed>
+    const embedElement = document.createElement('embed');
+    embedElement.setAttribute('src', pdfUrl);
+    embedElement.setAttribute('width', '100%');
+    embedElement.setAttribute('height', '600px');
+    document.body.appendChild(embedElement);
   } catch (error) {
     // Handle error if PDF loading fails
     Swal.fire({
