@@ -49,8 +49,11 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       icon: 'error',
       title: 'Oops...',
       text: 'URL Tidak Valid. Silahkan periksa kembali URL yang akan dikunjungi.',
-    }).then(redirect("../"));
-
+    });
+    const HomeLink = document.createElement('a');
+    HomeLink.href ="../";
+    HomeLink.textContent = 'Kembali ke Laman Depan';
+    document.body.replaceChild(HomeLink,loaderSection);
     console.error('Error memroses PDFs:', error);
   }
 }
