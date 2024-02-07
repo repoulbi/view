@@ -19,25 +19,5 @@ hashParams.forEach(param => {
     }
 });
 
-// Show loading message
-Swal.fire({
-    title: 'Please wait',
-    text: 'Please wait while the PDF is being loaded...',
-    allowOutsideClick: false,
-});
-
 // Load and display concatenated PDFs
-displayConcatenatedPDFs(pdfA, pdfB)
-    .then(() => {
-        // Close loading message when PDFs are loaded
-        //Swal.close();
-    })
-    .catch(error => {
-        // Handle error if PDF loading fails
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Failed to load PDF. Please try again later.',
-        });
-        console.error('Error loading PDF:', error);
-    });
+displayConcatenatedPDFs(pdfA, pdfB);
