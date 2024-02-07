@@ -1,0 +1,67 @@
+@import url('https://rsms.me/inter/inter.css');
+
+html { 
+	font-family: 'Inter', sans-serif; }
+
+body {
+    background-color: black;
+    color: white;
+    min-height: 97vh;
+}
+
+.container {
+    margin-left: 12.5%;
+    margin-right: 12.5%;
+}
+
+.topnav {
+	overflow: hidden;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.content {
+	position: absolute;
+	font-size: 15px;
+	left: 50%;
+	top: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+}
+
+.wrapper { 
+	height: 100%;
+	width: 100%;
+	left:0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+  background: linear-gradient(124deg, #3f6e47, #236063, #2920aa, #511057, #782680);
+  background-size: 1800% 1800%;
+  
+  -webkit-animation: rainbow 18s ease infinite;
+  -z-animation: rainbow 18s ease infinite;
+  -o-animation: rainbow 18s ease infinite;
+	animation: rainbow 18s ease infinite;}
+  
+  @-webkit-keyframes rainbow {
+	  0%{background-position:0% 82%}
+	  50%{background-position:100% 19%}
+	  100%{background-position:0% 82%}
+  }
+  @-moz-keyframes rainbow {
+	  0%{background-position:0% 82%}
+	  50%{background-position:100% 19%}
+	  100%{background-position:0% 82%}
+  }
+  @-o-keyframes rainbow {
+	  0%{background-position:0% 82%}
+	  50%{background-position:100% 19%}
+	  100%{background-position:0% 82%}
+  }
+  @keyframes rainbow { 
+	  0%{background-position:0% 82%}
+	  50%{background-position:100% 19%}
+	  100%{background-position:0% 82%}
+  }
