@@ -1,6 +1,11 @@
 import { displayConcatenatedPDFs } from "./lib.js";
 
 const urlHash = window.location.hash;
+if (!urlHash) {
+    // If hash URL is empty, redirect to 404.html
+    window.location.href = '404.html';
+}
+
 const hashParams = urlHash.substring(1).split('&');
 let pdfA, pdfB;
 
