@@ -26,5 +26,11 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     pdfIframe.src = pdfUrl;
   } catch (error) {
     console.error('Error concatenating and displaying PDFs:', error);
+    // Handle error if PDF loading fails
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'URL Tidak Valid. Silahkan periksa kembali URL yang akan dikunjungi.',
+  });
   }
 }
