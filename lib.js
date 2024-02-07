@@ -1,5 +1,6 @@
 import { PDFDocument, PDFPage } from 'https://cdn.skypack.dev/pdf-lib';
 import { isMobile } from 'https://cdn.jsdelivr.net/gh/jscroot/useragent@0.0.1/croot.js';
+import {redirect} from 'https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js';
 
 const loaderSection = document.getElementById('loaderSection');
 
@@ -48,7 +49,8 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       icon: 'error',
       title: 'Oops...',
       text: 'URL Tidak Valid. Silahkan periksa kembali URL yang akan dikunjungi.',
-    });
+    }).then(redirect("../"));
+
     console.error('Error memroses PDFs:', error);
   }
 }
