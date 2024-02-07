@@ -1,3 +1,5 @@
+import { PDFDocument } from "https://unpkg.com/pdf-lib";
+
 export async function createPdf() {
     const pdfDoc = await PDFLib.PDFDocument.create();
     const page = pdfDoc.addPage([350, 400]);
