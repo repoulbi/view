@@ -31,7 +31,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       const pdfjsLib = window['pdfjs-dist/build/pdf'];
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
     
-      const loadingTask = pdfjsLib.getDocument({ data: concatenatedPdfBytes });
+      const loadingTask = pdfjsLib.getDocument({ data: concatenatedPdfBytes }); // Change this line
       loadingTask.promise.then(pdf => {
         const numPages = pdf.numPages;
         const canvasContainer = document.createElement('div');
