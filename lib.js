@@ -79,7 +79,6 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     }
     
   } catch (error) {
-    // Handle error if PDF loading fails
     Swal.fire({
       icon: 'error',
       title: 'Oops...',
