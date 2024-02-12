@@ -4,7 +4,6 @@ import {redirect} from 'https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js';
 
 const loaderSection = document.getElementById('loaderSection');
 
-
 export async function displayConcatenatedPDFs(pdfA, pdfB) {
   const flagUrl = 'https://repo.ulbi.ac.id/sk/2324-1/' + pdfA + '.pdf';
   const constitutionUrl = 'https://repo.ulbi.ac.id/buktiajar/2324-1/' + pdfB + '.pdf';
@@ -27,26 +26,29 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       loadingTask.promise.then(pdf => {
         const numPages = pdf.numPages;
         const canvasContainer = document.createElement('div');
-        canvasContainer.style.width = '100vw';
-        canvasContainer.style.height = '100vh';
+        canvasContainer.style.width = '100%';
+        canvasContainer.style.height = '100%';
         canvasContainer.style.position = 'fixed';
         canvasContainer.style.top = '0';
         canvasContainer.style.left = '0';
         canvasContainer.style.zIndex = '9999';
+        canvasContainer.style.overflowY = 'scroll'; // Enable vertical scrolling
         document.body.appendChild(canvasContainer);
 
         for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
           pdf.getPage(pageNumber).then(page => {
             const viewport = page.getViewport({ scale: 1 });
+            const scale = Math.min(canvasContainer.clientWidth / viewport.width, canvasContainer.clientHeight / viewport.height);
+            const scaledViewport = page.getViewport({ scale });
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
+            canvas.height = scaledViewport.height;
+            canvas.width = scaledViewport.width;
             canvasContainer.appendChild(canvas);
 
             const renderContext = {
               canvasContext: context,
-              viewport: viewport
+              viewport: scaledViewport
             };
             page.render(renderContext);
           });
