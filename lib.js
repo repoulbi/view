@@ -10,7 +10,7 @@ export async function displayConcatenatedPDFs(pdfUrls) {
     // Load all PDFs
     for (const url of pdfUrls) {
       // Append .pdf extension to the URL
-      const pdfUrl = `https://repo.ulbi.ac.id/${url}.pdf`;
+      const pdfUrl = `/${url}.pdf`;
 
       // Fetch PDF bytes
       const pdfBytes = await fetch(pdfUrl).then(response => response.arrayBuffer());
