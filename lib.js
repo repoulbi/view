@@ -4,7 +4,9 @@ import {redirect} from 'https://cdn.jsdelivr.net/gh/jscroot/url@0.0.9/croot.js';
 
 const loaderSection = document.getElementById('loaderSection');
 
+
 export async function displayConcatenatedPDFs(pdfA, pdfB) {
+
   const flagUrl = 'https://repo.ulbi.ac.id/sk/2324-1/' + pdfA + '.pdf';
   const constitutionUrl = 'https://repo.ulbi.ac.id/buktiajar/2324-1/' + pdfB + '.pdf';
 
@@ -12,18 +14,24 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const flagPdfBytes = await fetch(flagUrl).then(response => response.arrayBuffer());
     const constitutionPdfBytes = await fetch(constitutionUrl).then(response => response.arrayBuffer());
 
-    const concatenatedPdfBytes = new Uint8Array(flagPdfBytes.byteLength + constitutionPdfBytes.byteLength);
-    concatenatedPdfBytes.set(new Uint8Array(flagPdfBytes), 0);
-    concatenatedPdfBytes.set(new Uint8Array(constitutionPdfBytes), flagPdfBytes.byteLength);
+    const flagPdfDoc = await PDFDocument.load(flagPdfBytes);
+    const constitutionPdfDoc = await PDFDocument.load(constitutionPdfBytes);
 
-    const pdfData = new Blob([concatenatedPdfBytes], { type: 'application/pdf' });
+    const pagesToAppend = await flagPdfDoc.copyPages(constitutionPdfDoc, constitutionPdfDoc.getPageIndices());
 
-    if (isMobile()) {
+    for (const page of pagesToAppend) {
+      await flagPdfDoc.addPage(page);
+    }
+
+    const concatenatedPdfBytes = await flagPdfDoc.save();
+
+    const pdfUrl = URL.createObjectURL(new Blob([concatenatedPdfBytes], { type: 'application/pdf' }));
+    if (isMobile()){
       // Mobile mode
       const pdfjsLib = window['pdfjs-dist/build/pdf'];
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
-
-      const loadingTask = pdfjsLib.getDocument({ url: URL.createObjectURL(pdfData) });
+    
+      const loadingTask = pdfjsLib.getDocument({ data: concatenatedPdfBytes });
       loadingTask.promise.then(pdf => {
         const numPages = pdf.numPages;
         const canvasContainer = document.createElement('div');
@@ -33,7 +41,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
         canvasContainer.style.top = '0';
         canvasContainer.style.left = '0';
         canvasContainer.style.zIndex = '9999';
-        canvasContainer.style.overflowY = 'scroll'; // Enable vertical scrolling
+        canvasContainer.style.overflowY = 'scroll';
         document.body.appendChild(canvasContainer);
 
         for (let pageNumber = 1; pageNumber <= numPages; pageNumber++) {
@@ -62,19 +70,14 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
           canvasContainer.webkitRequestFullscreen();
         }
       });
-    } else {
-      // Desktop mode
-      const loaderSection = document.getElementById('loaderSection');
-      if (loaderSection && loaderSection.parentNode) {
-        const pdfUrl = URL.createObjectURL(pdfData);
-        const embedElement = document.createElement('embed');
-        embedElement.setAttribute('src', pdfUrl);
-        embedElement.setAttribute('width', '100%');
-        embedElement.setAttribute('height', '100%');
-        loaderSection.parentNode.replaceChild(embedElement, loaderSection);
-      }
+    }else{
+      const embedElement = document.createElement('embed');
+      embedElement.setAttribute('src', pdfUrl);
+      embedElement.setAttribute('width', '100%');
+      embedElement.setAttribute('height', '100%');
+      document.body.replaceChild(embedElement,loaderSection);
     }
-
+    
   } catch (error) {
     // Handle error if PDF loading fails
     Swal.fire({
@@ -83,13 +86,9 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
       text: 'Dokumen masih dalam proses pembuatan. Silahkan kembali lagi setelah 10 menit.',
     });
     const HomeLink = document.createElement('a');
-    HomeLink.href = "javascript:window.location.reload(true)";
+    HomeLink.href ="javascript:window.location.reload(true)";
     HomeLink.textContent = 'Segarkan Laman';
-    if (loaderSection && loaderSection.parentNode) {
-      loaderSection.parentNode.replaceChild(HomeLink, loaderSection);
-    } else {
-      document.body.appendChild(HomeLink);
-    }
+    document.body.replaceChild(HomeLink,loaderSection);
     console.error('Error memroses PDFs:', error);
   }
 }
