@@ -9,11 +9,9 @@ export async function displayConcatenatedPDFs(pdfUrls) {
   try {
     // Load all PDFs
     for (const url of pdfUrls) {
-      // Append .pdf extension to the URL
-      const pdfUrl = `/${url}.pdf`;
 
       // Fetch PDF bytes
-      const pdfBytes = await fetch(pdfUrl).then(response => response.arrayBuffer());
+      const pdfBytes = await fetch(url).then(response => response.arrayBuffer());
       // Load PDF document
       const pdfDoc = await PDFDocument.load(pdfBytes);
       pdfDocs.push(pdfDoc);
