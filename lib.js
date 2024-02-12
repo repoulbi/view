@@ -19,6 +19,7 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const pdfData = new Blob([concatenatedPdfBytes], { type: 'application/pdf' });
 
     if (isMobile()) {
+      // Mobile mode
       const pdfjsLib = window['pdfjs-dist/build/pdf'];
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.worker.min.js';
 
@@ -62,12 +63,16 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
         }
       });
     } else {
-      const pdfUrl = URL.createObjectURL(pdfData);
-      const embedElement = document.createElement('embed');
-      embedElement.setAttribute('src', pdfUrl);
-      embedElement.setAttribute('width', '100%');
-      embedElement.setAttribute('height', '100%');
-      document.body.replaceChild(embedElement, loaderSection);
+      // Desktop mode
+      const loaderSection = document.getElementById('loaderSection');
+      if (loaderSection && loaderSection.parentNode) {
+        const pdfUrl = URL.createObjectURL(pdfData);
+        const embedElement = document.createElement('embed');
+        embedElement.setAttribute('src', pdfUrl);
+        embedElement.setAttribute('width', '100%');
+        embedElement.setAttribute('height', '100%');
+        loaderSection.parentNode.replaceChild(embedElement, loaderSection);
+      }
     }
 
   } catch (error) {
@@ -80,7 +85,11 @@ export async function displayConcatenatedPDFs(pdfA, pdfB) {
     const HomeLink = document.createElement('a');
     HomeLink.href = "javascript:window.location.reload(true)";
     HomeLink.textContent = 'Segarkan Laman';
-    document.body.replaceChild(HomeLink, loaderSection);
+    if (loaderSection && loaderSection.parentNode) {
+      loaderSection.parentNode.replaceChild(HomeLink, loaderSection);
+    } else {
+      document.body.appendChild(HomeLink);
+    }
     console.error('Error memroses PDFs:', error);
   }
 }
