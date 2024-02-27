@@ -9,7 +9,7 @@ if (!decodedURL) {
     window.location.href = '404.html';
 }
 
-const hashParams = decodedURL.substring(1).split('&');
+const hashParams = decodedURL.substring(1).split('.pdf&');
 console.log(hashParams);
 const pdfUrls = [];
 hashParams.forEach(param => {
