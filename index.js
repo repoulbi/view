@@ -14,6 +14,12 @@ console.log(hashParams);
 const pdfUrls = [];
 hashParams.forEach(param => {
     // Assuming param directly contains PDF URLs without keys
+    const lastThreeChars = param.substring(param.length - 4);
+    if(lastThreeChars !== ".pdf"){
+        param += ".pdf";
+    }
+
+
     const value = decodeURIComponent(param);
     pdfUrls.push(value);
 });
