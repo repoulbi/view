@@ -10,13 +10,14 @@ if (!decodedURL) {
 }
 
 const hashParams = decodedURL.substring(1).split('&');
+console.log(hashParams);
 const pdfUrls = [];
-
 hashParams.forEach(param => {
     // Assuming param directly contains PDF URLs without keys
     const value = decodeURIComponent(param);
     pdfUrls.push(value);
 });
+console.log(pdfUrls);
 
 // Load and display concatenated PDFs
 displayConcatenatedPDFs(pdfUrls);
